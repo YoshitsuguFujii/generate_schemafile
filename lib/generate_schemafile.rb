@@ -147,6 +147,12 @@ end
     end
 
     f = File.new(params['output_path'], 'w')
+    if !params['require'].nil?  && params['require'].length > 0
+      params['require'].split(',').each do |require|
+        schema_str = "require '#{require}'\n" + schema_str
+      end
+      schema_str = schema_str + "\n\n"
+    end
     f << schema_str
     f.close
 

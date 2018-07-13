@@ -7,6 +7,6 @@ $LOAD_PATH.unshift lib.to_s
 require 'optparse'
 require 'generate_schemafile'
 
-params = ARGV.getopts('', 'file_path:DB設計書.xlsm', 'output_path:Schemafile', 'help')
+params = ARGV.getopts('', 'file_path:DB設計書.xlsm', 'output_path:Schemafile', 'help', 'require:')
 
 GenerateSchemafile.invoke(params)

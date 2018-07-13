@@ -21,5 +21,8 @@ Or install it yourself as:
 ### make schemafile
 bundle exec generate_schemafile --file_path doc/DB設計書_test.xlsx --output_path db/Schemafile
 
+# 既存のschefileとの共存
+bundle exec generate_schemafile --file_path doc/DB設計書_test.xlsx --output_path db/Schemafile --require schemas/fugafuga,hogehoge/hogehoe
+
 ### help
 bundle exec generate_schemafile --help
