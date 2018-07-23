@@ -2,7 +2,7 @@ module GenerateSchemafile
   class Dsl
     class << self
       def make_dsl_string(row)
-        return nil unless row.length == 6
+        return nil unless row.length == 7
 
         dsl = "\s\s"
         dsl << 't.'
@@ -12,7 +12,8 @@ module GenerateSchemafile
         dsl << limit(row)
         dsl << "#{null_constraint(row[3])}"
         dsl << default(row)
-        dsl << comment(row[5])
+        dsl << ", array: true" if row[5]
+        dsl << comment(row[6])
         dsl
       end
 
@@ -59,8 +60,10 @@ module GenerateSchemafile
 
       def convert_invalid_type(type)
         case type.strip.downcase
-        when 'int', 'smallint', 'mediumint', 'bigint', 'integer'
+        when 'int', 'smallint', 'mediumint', 'integer'
           'integer'
+        when 'bigint', 'long'
+          'bigint'
         when 'varchar', 'string'
           'string'
         when 'tinyint'
