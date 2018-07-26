@@ -4,8 +4,6 @@ require "generate_schemafile/dsl"
 
 require 'rubyXL'
 
-require 'pry-byebug'
-
 # bundle exec generate_schemafile --file_path doc/DB設計書_test.xlsx --output_path db/Schemafile
 module GenerateSchemafile
   class InvalidFormatError < StandardError; end
