@@ -94,17 +94,17 @@ def invoke(params)
 
       # index
       COL_INFO[:index][:col_num].each_with_index do |col_num, i|
-        tbl_idx[i] << [sheet[row_num][2].value.strip, sheet[row_num][col_num].value.to_s.strip] if !sheet[row_num][col_num].value.nil? && sheet[row_num][col_num].value.to_s =~ /^\d+$/ # index
+        tbl_idx[i] << [sheet[row_num][col_num].value.to_s.strip, sheet[row_num][col_num].value.to_s.strip] if !sheet[row_num][col_num].value.nil? && sheet[row_num][col_num].value.to_s =~ /^\d+$/ # index
       end
 
       # uniq index
       COL_INFO[:index][:col_num].each_with_index do |col_num, i|
-        u_tbl_idx[i] << sheet[row_num][2].value.strip  if sheet[row_num][col_num].value == 'u'
+        u_tbl_idx[i] << sheet[row_num][col_num].value.strip  if sheet[row_num][col_num].value == 'u'
       end
 
       # uniq indx without soft deleted
       COL_INFO[:index][:col_num].each_with_index do |col_num, i|
-        ud_tbl_idx[i] << sheet[row_num][2].value.strip  if sheet[row_num][col_num].value == 'ud'
+        ud_tbl_idx[i] << sheet[row_num][col_num].value.strip  if sheet[row_num][col_num].value == 'ud'
       end
 
       if dsl_str = Dsl.make_dsl_string(row)
