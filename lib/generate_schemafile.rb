@@ -136,7 +136,7 @@ def invoke(params)
 
     u_tbl_idx.each do |idx|
       unless idx.empty?
-        index_name = "uniq_#{idx.join('_')}"[0..62]
+        index_name = "uniq_#{table_name}_#{idx.join('_')}"[0..62]
         schema_str << "add_index '#{table_name}', #{idx}, name: '#{index_name}', unique: true, using: :btree"
         schema_str << "\n"
         schema_str << "\n"
@@ -145,7 +145,7 @@ def invoke(params)
 
     ud_tbl_idx.each do |idx|
       unless idx.empty?
-        index_name = "uniq_#{idx.join('_')}"[0..62]
+        index_name = "uniq_#{table_name}_#{idx.join('_')}"[0..62]
         schema_str << "add_index '#{table_name}', #{idx}, name: '#{index_name}', unique: true, using: :btree, where: '(deleted_at IS NULL)'"
         schema_str << "\n"
         schema_str << "\n"
