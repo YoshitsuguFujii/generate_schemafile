@@ -48,6 +48,7 @@ def invoke(params)
     Console.progress_bar(idx / all_sheet * 100)
 
     next if %w(更新履歴 一覧).include?(sheet.sheet_name)
+    next if sheet.sheet_name.gsub(/\s/,'').downcase.start_with?('skipexport')
     next unless sheet[1][0].value == 'テーブル定義書'
 
     table_name = sheet[5][2].value if sheet[5][1].value == '物理名称'
