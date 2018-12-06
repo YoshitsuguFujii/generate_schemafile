@@ -24,5 +24,8 @@ bundle exec generate_schemafile --file_path doc/DB設計書_test.xlsx --output_p
 # 既存のschefileとの共存
 bundle exec generate_schemafile --file_path doc/DB設計書_test.xlsx --output_path db/Schemafile --require schemas/fugafuga,hogehoge/hogehoe
 
+# Schemafileを指定してexport
+bundle exec generate_schemafile --export --file_path db/Schemafile_old.schema --output_path DB設計書.xlsx
+
 ### help
 bundle exec generate_schemafile --help

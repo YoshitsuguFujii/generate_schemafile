@@ -1,8 +1,15 @@
 require "generate_schemafile/version"
+require "generate_schemafile/refinements/string_extension"
 require "generate_schemafile/console"
 require "generate_schemafile/dsl"
+require "generate_schemafile/export"
+require "generate_schemafile/export/table"
+require "generate_schemafile/export/column"
+require "generate_schemafile/export/index"
+require "generate_schemafile/excel/style"
 
 require 'rubyXL'
+require 'axlsx'
 
 # bundle exec generate_schemafile --file_path doc/DB設計書_test.xlsx --output_path db/Schemafile
 module GenerateSchemafile
@@ -17,18 +24,31 @@ module GenerateSchemafile
 def show_help
 Console.print_yellow <<"HELP_MES"
 Usage:
+## ExcelからSchemafileを作成する
 $ bundle exec generate_schemafile --file_path doc/DB設計書_test.xlsx --output_path db/Schemafile
 
 Options:
   --file_path   : DB定義書までの場所を指定(default: DB設計書.xlsm)
   --output_path : Schemafileの出力場所を指定(default: ./Schemafile)
   --help        : this help
+
+## Excelに出力する
+$ bundle exec generate_schemafile --export --file_path db/Schemafile --output_path doc/DB設計書.xlsx
 HELP_MES
+end
+
+def export(params)
+  Export.export(params)
 end
 
 def invoke(params)
   if params['help']
     show_help
+    exit
+  end
+
+  if params['export']
+    export(params)
     exit
   end
 
@@ -169,4 +189,5 @@ end
 
 module_function :invoke
 module_function :show_help
+module_function :export
 end
