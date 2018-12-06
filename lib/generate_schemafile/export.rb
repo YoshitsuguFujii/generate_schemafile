@@ -117,7 +117,7 @@ module GenerateSchemafile
           columns = []
           table_options = {}
 
-          table_name = table_str.scan(/create_table(.*),/).flatten.first.split(',')[0].gsub(/\s|"/, '')
+          table_name = table_str.scan(/create_table(.*),/).flatten.first.split(',')[0].gsub(/\s|"|'/, '')
           if !table_str.split("\n")[0].gsub(/\s/, '').downcase.include?('id:false')
             columns << Column.new('int', 'id', {'limit' => 11, 'null' => false})
           end
@@ -134,7 +134,11 @@ module GenerateSchemafile
             column_options = {}
             leftovers.to_s.split(',').each do |option|
               option = option.trim
-              hash = Hash[[option.split(':').map(&:trim)]]
+
+              key = option.split(':').first.trim
+              value = option.gsub("#{key}:", '').trim
+
+              hash = { key => value }
               hash.delete('default') if hash['default']  == '""'
               column_options.merge!(hash)
             end
@@ -151,7 +155,7 @@ module GenerateSchemafile
         file.scan(/^add_index.*?$/i).each do |field|
           options = {}
           field = field.trim
-          table_name = field.split("\s")[1].gsub(/"|,/, '').gsub(':', '')
+          table_name = field.split("\s")[1].gsub(/"|,|'/, '').gsub(':', '')
 
           columns = if field.scan(/\[.*\]/).empty?
                       [field.split(',')[1].trim.gsub(/:/,'')]
