@@ -1,6 +1,3 @@
-
-require 'pry-byebug'
-
 module GenerateSchemafile
   class Export
     using GenerateSchemafile::Refinements::StringExtension
@@ -127,7 +124,7 @@ module GenerateSchemafile
             field = field.trim # 行頭と行末のスペースを削除
             fields = field.split("\s")
             type= fields[0].split('.')[1]
-            column_name = fields[1].gsub(/"|,/, '')
+            column_name = fields[1].gsub(/"|,|'/, '')
             leftovers = field.scan(Regexp.new("#{fields[0]}\s*#{fields[1]}\s*(.*)")).flatten.first
             leftovers = leftovers.split('#').first
 
