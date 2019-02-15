@@ -149,7 +149,8 @@ def invoke(params)
     tbl_idx.each do |idx|
       unless idx.empty?
         idx.sort! { |a, b| a[1] <=> b[1] }
-        schema_str << "add_index '#{table_name}', #{idx.map(&:first)}, name: 'idx_#{idx.map(&:first).join('_')}_to_#{table_name}', using: :btree"
+        index_name = "idx_#{idx.map(&:first).join('_')}_to_#{table_name}"[0..62]
+        schema_str << "add_index '#{table_name}', #{idx.map(&:first)}, name: '#{index_name}', using: :btree"
         schema_str << "\n"
         schema_str << "\n"
       end
