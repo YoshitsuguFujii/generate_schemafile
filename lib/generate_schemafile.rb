@@ -75,6 +75,12 @@ def invoke(params)
 
     table_jp_name = sheet[4][2].value if sheet[4][1].value == 'テーブル名'
 
+    option =  if !sheet[1][21].nil? && sheet[1][21].value == 'オプション' && !sheet[1][22].value.nil? && !sheet[1][22].value.empty?
+                sheet[1][22].value
+              else
+                nil
+              end
+
     next if table_name == 'schema_migrations' || table_name.to_s == ''
 
     columns = []
@@ -140,7 +146,7 @@ def invoke(params)
     end
 
     schema_str << "# #{table_jp_name}\n"
-    schema_str << "create_table '#{table_name}' #{ ', id: false' unless has_id}, force: :cascase do |t|\n"
+    schema_str << "create_table '#{table_name}' #{ ', id: false' unless has_id}, force: :cascase#{", options: \"#{option}\""if option} do |t|\n"
     schema_str << columns.join("\n")
     schema_str << "\n"
     schema_str << "end\n"
