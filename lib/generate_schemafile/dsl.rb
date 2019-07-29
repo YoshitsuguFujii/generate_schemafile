@@ -26,7 +26,7 @@ module GenerateSchemafile
           elsif %w(true false TRUE FALSE).include?(value.to_s)
             ", default: #{value.downcase}"
             # 数値の場合
-          elsif !(value.to_s =~ /^\d+$/).nil?
+          elsif !(value.to_s =~ /\A[-]?[0-9]+(\.[0-9]+)?\z/).nil?
             ", default: #{value}"
           elsif  value.to_s == '9999-12-31T00:00:00+00:00'
             ", default: '9999-12-31'"
