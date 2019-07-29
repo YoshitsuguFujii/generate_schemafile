@@ -94,15 +94,19 @@ def invoke(params)
       ud_tbl_idx[i] = []
     end
 
-    has_id = false
+    id_value = 'false'
     row_num = 9 # set start row number
     while sheet[row_num] && !sheet[row_num][2].value.nil?
       row = []
 
       # 以下はrailsで自動生成するので不要
       if %w(id).include?(sheet[row_num][2].value.strip)
+        if sheet[row_num][3].value.strip == 'bigint'
+          id_value = ''
+        else
+          id_value = ':integer'
+        end
         row_num += 1
-        has_id = true
         next
       end
 
@@ -146,7 +150,7 @@ def invoke(params)
     end
 
     schema_str << "# #{table_jp_name}\n"
-    schema_str << "create_table '#{table_name}' #{ ', id: false' unless has_id}, force: :cascase#{", options: \"#{option}\""if option} do |t|\n"
+    schema_str << "create_table '#{table_name}' #{ ', id: ' + id_value unless id_value.empty?}, force: :cascase#{", options: \"#{option}\""if option} do |t|\n"
     schema_str << columns.join("\n")
     schema_str << "\n"
     schema_str << "end\n"

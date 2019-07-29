@@ -116,7 +116,7 @@ module GenerateSchemafile
 
           table_name = table_str.scan(/create_table(.*),/).flatten.first.split(',')[0].gsub(/\s|"|'/, '')
           if !table_str.split("\n")[0].gsub(/\s/, '').downcase.include?('id:false')
-            columns << Column.new('int', 'id', {'limit' => 11, 'null' => false})
+            columns << Column.new('bigint', 'id', {'limit' => 11, 'null' => false})
           end
 
           table_str.split("\n").each do |field|
