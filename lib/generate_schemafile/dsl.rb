@@ -1,3 +1,4 @@
+
 module GenerateSchemafile
   class Dsl
     class << self
@@ -32,6 +33,8 @@ module GenerateSchemafile
             ", default: '9999-12-31'"
           elsif value.to_s == 'NULL'
             ''
+          elsif value.to_s == "''"
+            ", default: ''"
           else
             ", default: '#{value}'"
           end
