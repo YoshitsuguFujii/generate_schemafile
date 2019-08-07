@@ -166,6 +166,7 @@ def invoke(params)
 
       key_str =  "add_foreign_key '#{table_name}', '#{keys[0]}'"
       key_str <<  ", column: '#{keys[1]}'" unless keys[1].nil?
+      key_str <<  "\n"
       schema_str << key_str
     end
 
