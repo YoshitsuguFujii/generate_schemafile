@@ -60,6 +60,7 @@ def invoke(params)
   end
 
   schema_str = ''
+  foreign_key_str = ''
   workbook = Console.display_with_arrow do
     RubyXL::Parser.parse(params['file_path'])
   end
@@ -164,10 +165,9 @@ def invoke(params)
 
       keys = key.split('.')
 
-      key_str =  "add_foreign_key '#{table_name}', '#{keys[0]}'"
-      key_str <<  ", column: '#{keys[1]}'" unless keys[1].nil?
-      key_str <<  "\n"
-      schema_str << key_str
+      foreign_key_str <<  "add_foreign_key '#{table_name}', '#{keys[0]}'"
+      foreign_key_str <<  ", column: '#{keys[1]}'" unless keys[1].nil?
+      foreign_key_str <<  "\n"
     end
 
     schema_str << "\n"
@@ -209,6 +209,7 @@ def invoke(params)
     schema_str = schema_str + "\n\n"
   end
   f << schema_str
+  f << foreign_key_str
   f.close
 
   Console.print_green("\nDone.")
