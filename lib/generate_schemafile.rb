@@ -18,7 +18,8 @@ module GenerateSchemafile
   COL_INFO = {
     array: {col_num: 10},
     index: {col_num: 11..20},
-    comment: {col_num: 21}
+    foreign_key: {col_num: 21},
+    comment: {col_num: 22}
   }
 
 def show_help
@@ -83,6 +84,7 @@ def invoke(params)
 
     next if table_name == 'schema_migrations' || table_name.to_s == ''
 
+    foreign_keys = []
     columns = []
     tbl_idx    = []
     u_tbl_idx    = []
@@ -123,6 +125,8 @@ def invoke(params)
       row << (sheet[row_num][COL_INFO[:array][:col_num]]&.value rescue nil)        # array
       row << (sheet[row_num][COL_INFO[:comment][:col_num]]&.value rescue nil)      # コメント
 
+      foreign_keys << (sheet[row_num][COL_INFO[:foreign_key][:col_num]]&.value rescue nil)  # 外部キー制約
+
       # index
       COL_INFO[:index][:col_num].each_with_index do |col_num, i|
         tbl_idx[i] << [sheet[row_num][2].value.strip, sheet[row_num][col_num].value.to_s.strip] if !sheet[row_num][col_num].value.nil? && sheet[row_num][col_num].value.to_s =~ /^\d+$/ # index
@@ -154,6 +158,17 @@ def invoke(params)
     schema_str << columns.join("\n")
     schema_str << "\n"
     schema_str << "end\n"
+
+    foreign_keys.compact!
+    foreign_keys.each do |key|
+
+      keys = key.split('.')
+
+      key_str =  "add_foreign_key '#{table_name}', '#{keys[0]}'"
+      key_str <<  ", column: '#{keys[1]}'" unless keys[1].nil?
+      schema_str << key_str
+    end
+
     schema_str << "\n"
 
     tbl_idx.each do |idx|
