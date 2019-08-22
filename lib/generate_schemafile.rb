@@ -163,10 +163,13 @@ def invoke(params)
     foreign_keys.compact!
     foreign_keys.each do |key|
 
+      fk_option = key.scan(/\[(.*)\]/).first.first rescue ''
+      key = key.gsub("[#{fk_option}]", '') unless fk_option.empty?
       keys = key.split('.')
 
       foreign_key_str <<  "add_foreign_key '#{table_name}', '#{keys[0]}'"
       foreign_key_str <<  ", column: '#{keys[1]}'" unless keys[1].nil?
+      foreign_key_str <<  ", #{fk_option}" unless fk_option.empty?
       foreign_key_str <<  "\n"
     end
 
