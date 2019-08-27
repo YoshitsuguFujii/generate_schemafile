@@ -205,12 +205,14 @@ def invoke(params)
   end
 
   f = File.new(params['output_path'], 'w')
+
   if !params['require'].nil?  && params['require'].length > 0
     params['require'].split(',').each do |require|
       schema_str = "require '#{require}'\n" + schema_str
     end
     schema_str = schema_str + "\n\n"
   end
+  schema_str = "# encoding: utf-8\n\n" + schema_str
   f << schema_str
   f << foreign_key_str
   f.close
