@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["yoshitsugu_fujii"]
   spec.email         = ["4429.fujii@gmail.com"]
 
-  spec.summary       = %q{エクセルからridgepoleのSCHEMAFILEを作成する}
-  spec.description   = %q{エクセルからridgepoleのSCHEMAFILEを作成する}
+  spec.summary       = %q{Create a ridgepole SCHEMAFILE from Excel}
+  spec.description   = %q{Create a ridgepole SCHEMAFILE from Excel}
   spec.homepage      = "https://github.com/YoshitsuguFujii"
   spec.license       = "MIT"
 
