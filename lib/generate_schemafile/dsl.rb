@@ -77,6 +77,8 @@ module GenerateSchemafile
           'binary'
         when 'datetime', 'date', 'time', 'timestamp', 'boolean', 'float'
           type
+        when 'json'
+          'json'
         when 'jsonb'
           'jsonb'
         else
