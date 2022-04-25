@@ -19,7 +19,8 @@ module GenerateSchemafile
     array: {col_num: 10},
     index: {col_num: 11..20},
     foreign_key: {col_num: 21},
-    comment: {col_num: 22}
+    unsighted: {col_num: 22},
+    comment: {col_num: 23}
   }
 
 def show_help
@@ -77,8 +78,8 @@ def invoke(params)
 
     table_jp_name = sheet[4][2].value if sheet[4][1].value == 'テーブル名'
 
-    option =  if !sheet[1][21].nil? && sheet[1][21].value == 'オプション' && !sheet[1][22].value.nil? && !sheet[1][22].value.empty?
-                sheet[1][22].value
+    option =  if !sheet[1][21].nil? && sheet[1][21].value == 'オプション' && !sheet[1][23].value.nil? && !sheet[1][23].value.empty?
+                sheet[1][23].value
               else
                 nil
               end
@@ -124,6 +125,7 @@ def invoke(params)
              end
 
       row << (sheet[row_num][COL_INFO[:array][:col_num]]&.value rescue nil)        # array
+      row << (sheet[row_num][COL_INFO[:unsighted][:col_num]]&.value rescue nil)    # unsighted
       row << (sheet[row_num][COL_INFO[:comment][:col_num]]&.value rescue nil)      # コメント
 
       foreign_keys << (sheet[row_num][COL_INFO[:foreign_key][:col_num]]&.value rescue nil)  # 外部キー制約

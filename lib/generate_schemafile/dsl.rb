@@ -3,7 +3,7 @@ module GenerateSchemafile
   class Dsl
     class << self
       def make_dsl_string(row)
-        return nil unless row.length == 7
+        return nil unless row.length == 8
 
         dsl = "\s\s"
         dsl << 't.'
@@ -14,7 +14,8 @@ module GenerateSchemafile
         dsl << "#{null_constraint(row[3])}"
         dsl << default(row)
         dsl << ", array: true" if row[5]
-        dsl << comment(row[6])
+        dsl << ", unsigned: true" if row[6]
+        dsl << comment(row[7])
         dsl
       end
 
